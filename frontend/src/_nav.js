@@ -7,6 +7,7 @@ import {
   cilCursor,
   cilDescription,
   cilDrop,
+  cilNewspaper,
   cilNotes,
   cilPencil,
   cilPuzzle,
@@ -25,6 +26,16 @@ const _nav = [
       color: 'info',
       text: 'NEW',
     },
+  },
+  {
+    component: CNavTitle,
+    name: 'Manajemen',
+  },
+  {
+    component: CNavItem,
+    name: 'Kawal Indonesia',
+    to: '/kawalindonesia/project',
+    icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
