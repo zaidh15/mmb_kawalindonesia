@@ -11,12 +11,36 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
+  CFormTextarea,
+  CFormSelect,
+  CFormLabel,
 } from '@coreui/react'
 
 import axios from 'axios'
 
 const Project = () => {
+  const [data, setData] = useState([])
 
+  const getAllBarang = () => {
+    axios.get("http://localhost:5005/api/projects").then((response) => {
+      setData(response.data.data)
+    })
+  }
+
+  useEffect(() => {
+    return getAllBarang()
+  },[])
+
+  const items = data.map((item) => ({
+    id: item.id, 
+    nama: item.nama_project,
+    nama_owner: item.nama_project_owner,
+    username: item.username,
+    email: item.email,
+    no_hp: item.no_hp,
+    action: '...',
+  }))
+  
 
   const columns = [
     {
@@ -56,30 +80,6 @@ const Project = () => {
     },
   ]
 
-  const items = [
-    {
-      id: 1, 
-      nama: 'John Pasti Menang',
-      nama_owner: 'John',
-      username: '@john123',
-      email: 'john@example.com',
-      no_hp: '08123123123',
-      action: '...',
-      _cellProps: { id: { scope: 'row' } },
-    },
-    {
-      id: 2, 
-      nama: 'Gerakan Mamat Bersatu',
-      nama_owner: 'Mamat',
-      username: '@mamatmamat',
-      email: 'mamat@example.com',
-      no_hp: '08111111111',
-      action: '...',
-      _cellProps: { id: { scope: 'row' } },
-    }
-  ]
-
-
   const [visible, setVisible] = useState(false)
 
   return (
@@ -104,6 +104,7 @@ const Project = () => {
     <CTable columns={columns} items={items} striped/>
 
     <CModal
+        size='lg'
         alignment="center"
         visible={visible}
         onClose={() => setVisible(false)}
@@ -113,23 +114,37 @@ const Project = () => {
             <CModalTitle id="VerticallyCenteredExample">Tambah Project</CModalTitle>
         </CModalHeader>
         <CModalBody>
-        <CForm className="row g-3">
-                <CCol md={6}>
-                    <CFormInput id="namaproject" label="Nama Project" />
+        <CForm>
+          <CRow className="mb-3">
+            <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">Nama Project</CFormLabel>
+            <CCol sm={10} >
+              <CFormInput id="nama_project"/>
+            </CCol>
+          </CRow>
+          <CRow className="mb-3">
+            <CFormLabel htmlFor="inputPassword3" className="col-sm-2 col-form-label">Project Owner</CFormLabel>
+            <CCol sm={10} >
+              <CFormSelect 
+                  aria-label="Default select example"
+                  options={[
+                    ' ',
+                    { label: 'John', value: '1' },
+                    { label: 'Mamat', value: '2' },
+                    { label: 'User3', value: '3', disabled: true }
+                  ]}
+                />
+            </CCol>
+          </CRow>
+          <CRow className="mb-3">
+            <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">Deskripsi</CFormLabel>
+            <CCol>
+                <CFormTextarea
+                  id="deskripsi"
+                  rows={3}
+                ></CFormTextarea>
                 </CCol>
-                <CCol md={6}>
-                    <CFormInput id="namaprojectowner" label="Nama Project Owner" />
-                </CCol>
-                <CCol md={6}>
-                    <CFormInput id="usernameprojectowner" label="Username Project Owner" />
-                </CCol>
-                <CCol md={6}>
-                    <CFormInput type="email" id="projectowneremail" label="Project Owner Email" />
-                </CCol>
-                <CCol md={6}>
-                    <CFormInput id="no_hp" label="No HP" />
-                </CCol>
-            </CForm>
+          </CRow>
+        </CForm>
         </CModalBody>
         <CModalFooter>
             <CButton color="secondary" onClick={() => setVisible(false)}>
