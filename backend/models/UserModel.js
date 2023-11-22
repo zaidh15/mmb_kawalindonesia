@@ -5,15 +5,13 @@ async function ambilSemua() {
   try {
     const [rows, fields] = await conn.execute(
       `SELECT 
-        p.id,
-        p.nama as nama_project, 
         u.nama_depan,
         u.nama_belakang,  
         u.username, 
         u.email, 
-        u.no_hp
-      FROM projects p
-      LEFT JOIN users u on p.id_project_owner = u.id`
+        u.no_hp,
+        u.status_user
+      FROM users u`
     )
     return rows
   } finally {
@@ -25,7 +23,7 @@ async function ambilBerasarkanId(id) {
   const conn = await db.getConnection()
   try {
     const [rows, fields] = await conn.execute(
-      'SELECT * FROM projects WHERE id = ? ',
+      'SELECT * FROM users WHERE id = ? ',
       [id]
     )
     return rows
@@ -40,7 +38,7 @@ async function tambah(data) {
     const kolom = Object.keys(data).join(',') 
     const values = Object.values(data) 
     const tandaTanya = values.map(() => '?').join(',') 
-    const query = `INSERT INTO projects (${kolom}) VALUES (${tandaTanya})`
+    const query = `INSERT INTO users (${kolom}) VALUES (${tandaTanya})`
     const result = await conn.execute(query, values)
     return result
   } finally {
@@ -55,7 +53,7 @@ async function ubah(id, data) {
       .map((key) => `${key} = ?`)
       .join(',')
     const values = Object.values(data)
-    const query = `UPDATE projects
+    const query = `UPDATE users
                   SET ${updateQuery}
                   WHERE id=?;`
     const result = await conn.execute(query, [...values, id])
@@ -68,7 +66,7 @@ async function ubah(id, data) {
 async function hapus(id) {
   const conn = await db.getConnection()
   try {
-    const result = conn.execute('DELETE FROM projects WHERE id = ?;', [id])
+    const result = conn.execute('DELETE FROM users WHERE id = ?;', [id])
     return result
   } finally {
     conn.release()
