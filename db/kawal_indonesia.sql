@@ -24,13 +24,13 @@ CREATE TABLE projects (
 
 -- Insert data dummy
 INSERT INTO users (nama_depan, nama_belakang, username, email, no_hp, status_user) VALUES
-    ('User', 'a', 'user1', 'user1@example.com', '1234567890', 1), -- Active user
-    ('User', 'b', 'user2', 'user2@example.com', '9876543210', 1), -- Active user
-    ('User', 'c', 'user3', 'user3@example.com', '5678901234', 0); -- Inactive user
+    ('John', 'Sin', 'john_sin', 'johnsin@example.com', '1234567890', 1), -- Active user
+    ('Mamat', 'Tar', 'mamattar', 'mamattar@example.com', '9876543210', 1), -- Active user
+    ('Tira', 'Li', 'tira_li', 'tirali@example.com', '5678901234', 0); -- Inactive user
 
 
 
 INSERT INTO projects (nama, id_project_owner, deskripsi) VALUES
-    ('Proj1', 1, 'abc'),
-    ('Proj2', 2, 'desk'),
-    ('Proj3', 3, 'deskripsi');
+    ('John Satu', 1, 'Merupakan project untuk real count data'),
+    ('Mamat Dua', 2, 'real count data untuk jabar II'),
+    ('Tira Jabar', 3, 'project quick count data');

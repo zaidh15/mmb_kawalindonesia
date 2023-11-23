@@ -14,27 +14,38 @@ import {
   CFormTextarea,
   CFormSelect,
   CFormLabel,
+  CLink,
 } from '@coreui/react'
 
 import axios from 'axios'
+import ProjectForm from './ProjectForm'
 
 const Project = () => {
   const [data, setData] = useState([])
+  const [visible, setVisible] = useState(false)
 
-  const getAllBarang = () => {
+  const getAllProject = () => {
     axios.get("http://localhost:5005/api/projects").then((response) => {
       setData(response.data.data)
     })
   }
 
+  const saveNewProject = (newData) => {
+    axios.post("http://localhost:5005/api/project", newData).then((response) => {
+      console.log(response)
+      setVisible(false)
+      getAllProject()
+    })
+  }
+
   useEffect(() => {
-    return getAllBarang()
+    return getAllProject()
   },[])
 
   const items = data.map((item) => ({
     id: item.id, 
     nama: item.nama_project,
-    nama_owner: item.nama_project_owner,
+    nama_owner: item.nama_depan + ' ' + item.nama_belakang,
     username: item.username,
     email: item.email,
     no_hp: item.no_hp,
@@ -80,8 +91,6 @@ const Project = () => {
     },
   ]
 
-  const [visible, setVisible] = useState(false)
-
   return (
     <>
     <h2>Project</h2>
@@ -114,44 +123,8 @@ const Project = () => {
             <CModalTitle id="VerticallyCenteredExample">Tambah Project</CModalTitle>
         </CModalHeader>
         <CModalBody>
-        <CForm>
-          <CRow className="mb-3">
-            <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">Nama Project</CFormLabel>
-            <CCol sm={10} >
-              <CFormInput id="nama_project"/>
-            </CCol>
-          </CRow>
-          <CRow className="mb-3">
-            <CFormLabel htmlFor="inputPassword3" className="col-sm-2 col-form-label">Project Owner</CFormLabel>
-            <CCol sm={10} >
-              <CFormSelect 
-                  aria-label="Default select example"
-                  options={[
-                    ' ',
-                    { label: 'John', value: '1' },
-                    { label: 'Mamat', value: '2' },
-                    { label: 'User3', value: '3', disabled: true }
-                  ]}
-                />
-            </CCol>
-          </CRow>
-          <CRow className="mb-3">
-            <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">Deskripsi</CFormLabel>
-            <CCol>
-                <CFormTextarea
-                  id="deskripsi"
-                  rows={3}
-                ></CFormTextarea>
-                </CCol>
-          </CRow>
-        </CForm>
+          <ProjectForm onSimpanClick={saveNewProject}/>
         </CModalBody>
-        <CModalFooter>
-            <CButton color="secondary" onClick={() => setVisible(false)}>
-            Close
-            </CButton>
-            <CButton color="primary">Save changes</CButton>
-        </CModalFooter>
         </CModal>
     </>
   )

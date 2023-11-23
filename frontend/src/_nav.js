@@ -13,6 +13,7 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
+  cilLayers,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -32,10 +33,22 @@ const _nav = [
     name: 'Manajemen',
   },
   {
-    component: CNavItem,
-    name: 'Kawal Indonesia',
-    to: '/kawalindonesia/project',
-    icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
+    component: CNavGroup,
+    name: 'Manajemen',
+    to: '/kawalindonesia',
+    icon: <CIcon icon={cilLayers} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Kawal Indonesia',
+        to: '/kawalindonesia/project',
+      },
+      {
+        component: CNavItem,
+        name: 'Form',
+        to: '/kawalindonesia/form',
+      },
+    ],
   },
   {
     component: CNavTitle,
