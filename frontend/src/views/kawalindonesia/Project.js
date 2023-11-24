@@ -11,11 +11,19 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
-  CFormTextarea,
-  CFormSelect,
-  CFormLabel,
   CLink,
+  CDropdown,
+  CDropdownMenu,
+  CDropdownItem,
+  CDropdownToggle,
+
 } from '@coreui/react'
+
+import CIcon from '@coreui/icons-react'
+import {
+  cilPencil,
+  cilTrash,
+} from '@coreui/icons'
 
 import axios from 'axios'
 import ProjectForm from './ProjectForm'
@@ -35,23 +43,13 @@ const Project = () => {
       console.log(response)
       setVisible(false)
       getAllProject()
+      console.error("Error fetching project details:", error)
     })
   }
 
   useEffect(() => {
     return getAllProject()
   },[])
-
-  const items = data.map((item) => ({
-    id: item.id, 
-    nama: item.nama_project,
-    nama_owner: item.nama_depan + ' ' + item.nama_belakang,
-    username: item.username,
-    email: item.email,
-    no_hp: item.no_hp,
-    action: '...',
-  }))
-  
 
   const columns = [
     {
@@ -91,6 +89,28 @@ const Project = () => {
     },
   ]
 
+  const items = data.map((item) => ({
+    id: item.id, 
+    nama: (
+      <CLink href={item.nama_project}>{item.nama_project}</CLink>
+    ),
+    nama_owner: item.nama_depan + ' ' + item.nama_belakang,
+    username: item.username,
+    email: item.email,
+    no_hp: item.no_hp,
+    action: (
+      <CDropdown direction='center'>
+        <CDropdownToggle color="warning"></CDropdownToggle>
+        <CDropdownMenu>
+          <CDropdownItem onClick={() => showDetails(item.id)}>
+            <CIcon icon={cilPencil}/> Edit Project
+          </CDropdownItem>
+          <CDropdownItem href="#"><CIcon icon={cilTrash}/> Delete Project</CDropdownItem>
+        </CDropdownMenu>
+      </CDropdown>
+    ),
+  }))
+
   return (
     <>
     <h2>Project</h2>
@@ -123,7 +143,7 @@ const Project = () => {
             <CModalTitle id="VerticallyCenteredExample">Tambah Project</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <ProjectForm onSimpanClick={saveNewProject}/>
+          <ProjectForm onSimpanClick={saveNewProject} onCancelClick={() => setVisible(false)}/>
         </CModalBody>
         </CModal>
     </>

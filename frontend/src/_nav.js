@@ -48,6 +48,11 @@ const _nav = [
         name: 'Form',
         to: '/kawalindonesia/form',
       },
+      {
+        component: CNavItem,
+        name: 'Tipe User (testing)',
+        to: '/kawalindonesia/tipeuser',
+      },
     ],
   },
   {

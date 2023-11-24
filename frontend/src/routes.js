@@ -7,6 +7,7 @@ const Typography = React.lazy(() => import('./views/theme/typography/Typography'
 //Manajemen
 const KawalIndonesia = React.lazy(() => import('./views/kawalindonesia/Project'))
 const Form_Kawal= React.lazy(() => import('./views/kawalindonesia/Form_Kawal'))
+const TipeUser= React.lazy(() => import('./views/kawalindonesia/TipeUser'))
 
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
@@ -102,6 +103,7 @@ const routes = [
   { path: '/manajemen', name: 'Manajemen', element: KawalIndonesia, exact: true },
   { path: '/kawalindonesia/project', name: 'Kawal Indonesia', element: KawalIndonesia },
   { path: '/kawalindonesia/form', name: 'Form', element: Form_Kawal },
+  { path: '/kawalindonesia/tipeuser', name: 'Tipe User', element: TipeUser },
 ]
 
 export default routes
