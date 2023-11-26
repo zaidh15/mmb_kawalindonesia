@@ -14,7 +14,7 @@ import {
 
 
  const defaultData = {
-    nama_project: "",
+    nama: "",
     id_project_owner: "",
     deskripsi: "",
   }
@@ -51,7 +51,7 @@ const ProjectForm = (props) => {
     }
 
     const getAllProject = () => {
-    axios.get("http://localhost:5005/api/projects").then((response) => {
+    axios.get("http://localhost:5005/api/users").then((response) => {
       setData(response.data.data)
     })
     }
@@ -60,14 +60,37 @@ const ProjectForm = (props) => {
       return getAllProject()
     },[])
 
+    useEffect(() => {
+      if(props.modeEdit === false){
+        setDataProject(defaultData)
+      }else if(props.modeEdit === true){
+        setDataProject(props.dataProject)
+      }
+    }, [props.modeEdit, props.dataProject])
+
+    const btnSimpanEditHandler = (event) =>{
+      event.preventDefault()
+      const {id, ...dataSiapDisimpan} = dataProject
+      console.log(dataSiapDisimpan)
+      props.onSimpanEdit(id, dataSiapDisimpan)
+    }
+
     return (
+      
+
+
         <CForm>
           <CRow className="mb-3">
-            <CFormLabel htmlFor="namaproject" className="col-sm-2 col-form-label">Nama Project</CFormLabel>
+            <CFormLabel htmlFor="nama" className="col-sm-2 col-form-label">Nama Project</CFormLabel>
             <CCol sm={10} >
-              <CFormInput  id="nama_project" onChange={inputChangedHandler}/>
+              <CFormInput  
+              name="nama"
+              id="nama" 
+              value={dataProject.nama}
+              onChange={inputChangedHandler}/>
             </CCol>
           </CRow>
+
           <CRow className="mb-3">
             <CFormLabel htmlFor="projectowner" className="col-sm-2 col-form-label">Project Owner</CFormLabel>
             <CCol sm={10} >
@@ -75,6 +98,7 @@ const ProjectForm = (props) => {
               aria-label="Default select example"
               id="id_project_owner"
               name="id_project_owner"
+              value={dataProject.id_project_owner}
               onChange={inputChangedHandler}
             >
               <option value="">Select Project Owner</option>
@@ -88,6 +112,7 @@ const ProjectForm = (props) => {
             </CFormSelect>
             </CCol>
           </CRow>
+
           <CRow className="mb-3">
             <CFormLabel htmlFor="deskripsi" className="col-sm-2 col-form-label">Deskripsi</CFormLabel>
             <CCol>
@@ -95,14 +120,22 @@ const ProjectForm = (props) => {
                   name="deskripsi"
                   id="deskripsi"
                   rows={3}
+                  value={dataProject.deskripsi}
                   onChange={inputChangedHandler}
                 ></CFormTextarea>
                 </CCol>
           </CRow>
+
           <CButton color="secondary" onClick={cancelHandler}>
             Close
             </CButton>
-            <CButton color="primary" onClick={btnSimpanHandler}>Save changes</CButton>
+
+              {!props.modeEdit && (
+                <CButton className="mx-3" color="primary" onClick={btnSimpanHandler}>Save</CButton>
+              )}
+              {props.modeEdit && (
+                <CButton className="mx-3" color="primary" onClick={btnSimpanEditHandler}>Save changes</CButton>
+              )}
         </CForm>
     )
 }
