@@ -32,6 +32,18 @@ const Project = () => {
   const [data, setData] = useState([])
   const [visible, setVisible] = useState(false)
 
+  const [dataProject, setDataProject] = useState(null)
+  const [modeEdit, setModeEdit] = useState(false)
+
+  const closeModal = () => {
+    setVisible(false)
+  }
+
+  const openModal = () => {
+    setVisible(true)
+    setModeEdit(false)
+  }
+
   const getAllProject = () => {
     axios.get("http://localhost:5005/api/projects").then((response) => {
       setData(response.data.data)
@@ -43,13 +55,39 @@ const Project = () => {
       console.log(response)
       setVisible(false)
       getAllProject()
-      console.error("Error fetching project details:", error)
     })
   }
 
   useEffect(() => {
     return getAllProject()
   },[])
+
+  const btnEdit = (id) =>{
+    axios.get(`http://localhost:5005/api/project/${id}`).then((response) => {
+      console.log(response.data.data[0]);
+      setDataProject(response.data.data[0]);
+
+      setVisible(true)
+      setModeEdit(true)
+    })
+  }
+
+  const simpanDataEdit = (id, dataEdit) => {
+    axios.put(`http://localhost:5005/api/project/${id}`, dataEdit)
+    .then((response) => {
+      console.log(response)
+      setVisible(false)
+      getAllProject()
+    })
+  }
+
+  const btnDelete = (id) => {
+    axios.delete(`http://localhost:5005/api/project/${id}`)
+    .then((response) => {
+    console.log(response.data.data);
+    getAllProject()
+  })
+  }
 
   const columns = [
     {
@@ -89,8 +127,8 @@ const Project = () => {
     },
   ]
 
-  const items = data.map((item) => ({
-    id: item.id, 
+  const items = data.map((item, index) => ({
+    id: index+1, 
     nama: (
       <CLink href={item.nama_project}>{item.nama_project}</CLink>
     ),
@@ -102,10 +140,10 @@ const Project = () => {
       <CDropdown direction='center'>
         <CDropdownToggle color="warning"></CDropdownToggle>
         <CDropdownMenu>
-          <CDropdownItem onClick={() => showDetails(item.id)}>
+          <CDropdownItem onClick={() => btnEdit(item.id)}>
             <CIcon icon={cilPencil}/> Edit Project
           </CDropdownItem>
-          <CDropdownItem href="#"><CIcon icon={cilTrash}/> Delete Project</CDropdownItem>
+          <CDropdownItem onClick={() => btnDelete(item.id)}><CIcon icon={cilTrash}/> Delete Project</CDropdownItem>
         </CDropdownMenu>
       </CDropdown>
     ),
@@ -126,7 +164,7 @@ const Project = () => {
         </CForm>
       </CCol>
       <CCol s lg={3}>
-        <CButton color="primary" onClick={() => setVisible(!visible)}>+ Tambah Project</CButton>
+        <CButton color="primary" onClick={openModal}>+ Tambah Project</CButton>
       </CCol>
     </CRow>
     <br/>
@@ -143,7 +181,13 @@ const Project = () => {
             <CModalTitle id="VerticallyCenteredExample">Tambah Project</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <ProjectForm onSimpanClick={saveNewProject} onCancelClick={() => setVisible(false)}/>
+          <ProjectForm 
+          onSimpanClick={saveNewProject} 
+          onCancelClick={() => setVisible(false)}
+          modeEdit={modeEdit}
+          dataProject={dataProject}
+          onSimpanEdit={simpanDataEdit}
+          />
         </CModalBody>
         </CModal>
     </>

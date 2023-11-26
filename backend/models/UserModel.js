@@ -5,6 +5,7 @@ async function ambilSemua() {
   try {
     const [rows, fields] = await conn.execute(
       `SELECT 
+        u.id,
         u.nama_depan,
         u.nama_belakang,  
         u.username, 
