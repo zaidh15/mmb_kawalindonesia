@@ -25,7 +25,18 @@ async function ambilBerasarkanId(id) {
   const conn = await db.getConnection()
   try {
     const [rows, fields] = await conn.execute(
-      'SELECT * FROM projects WHERE id = ? ',
+      `SELECT 
+      p.id,
+      p.nama as nama_project, 
+      p.deskripsi,
+      u.nama_depan,
+      u.nama_belakang,  
+      u.username, 
+      u.email, 
+      u.no_hp
+    FROM projects p
+    LEFT JOIN users u on p.id_project_owner = u.id
+    WHERE  p.id = ? `,
       [id]
     )
     return rows

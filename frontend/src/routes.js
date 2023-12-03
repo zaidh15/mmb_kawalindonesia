@@ -104,6 +104,7 @@ const routes = [
   { path: '/kawalindonesia/project', name: 'Kawal Indonesia', element: KawalIndonesia },
   { path: '/kawalindonesia/form', name: 'Form', element: Form_Kawal },
   { path: '/kawalindonesia/tipeuser', name: 'Tipe User', element: TipeUser },
+  { path: '/kawalindonesia/tipe-user/:id', name: 'Tipe User', element: TipeUser },
 ]
 
 export default routes

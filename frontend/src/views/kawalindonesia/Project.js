@@ -130,7 +130,7 @@ const Project = () => {
   const items = data.map((item, index) => ({
     id: index+1, 
     nama: (
-      <CLink href={item.nama_project}>{item.nama_project}</CLink>
+      <CLink href={`../kawalindonesia/tipe-user/${item.id}`}>{item.nama_project}</CLink>
     ),
     nama_owner: item.nama_depan + ' ' + item.nama_belakang,
     username: item.username,
