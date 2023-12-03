@@ -38,7 +38,7 @@ const TipeUser = () => {
   const { id } = useParams();
 
   const [data, setData] = useState([])
-  const [dataTable, setDataTable] = useState([])
+  const [dataList, setDataList] = useState([])
   const [visible, setVisible] = useState(false)
 
   const [dataTipeUser, setDataTipeUser] = useState(null)
@@ -163,7 +163,7 @@ const TipeUser = () => {
       .then((response) => {
         // Handle the response and display details as needed
         console.log(response.data);
-        setDataTable(response.data.data)
+        setDataList(response.data.data)
       })
       .catch((error) => {
         console.error("Error fetching project details:", error);
@@ -196,7 +196,7 @@ const TipeUser = () => {
                 <CListGroupItem>Status</CListGroupItem>
             </CTableHeaderCell>
 
-            {dataTable.map((itemsTable) => (
+            {dataList.map((itemsTable) => (
             <CTableHeaderCell scope="col">
                 <CListGroupItem>{itemsTable.nama_project}</CListGroupItem>
                 <CListGroupItem>{itemsTable.nama_depan + ' ' + itemsTable.nama_belakang}</CListGroupItem>
@@ -212,7 +212,7 @@ const TipeUser = () => {
 
         </div>
 
-        {/* {dataTable.map((itemsTable) => (
+        {/* {dataList.map((itemsTable) => (
         <div>
                 <CListGroupItem className='py-1'>Nama Project   : {itemsTable.nama_project}</CListGroupItem>
                 <CListGroupItem className='py-1'>Project Owner   : {itemsTable.nama_depan + ' ' + itemsTable.nama_belakang}</CListGroupItem>
