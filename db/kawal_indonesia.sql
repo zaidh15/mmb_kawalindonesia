@@ -21,6 +21,15 @@ CREATE TABLE projects (
     FOREIGN KEY (id_project_owner) REFERENCES users(id)
 );
 
+CREATE TABLE tipe_user (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nama VARCHAR(255) NOT NULL,
+  tipe_wilayah VARCHAR(255) NOT NULL,
+  orderan INT,
+  user_terdaftar INT,
+  akses INT
+);
+
 
 -- Insert data dummy
 INSERT INTO users (nama_depan, nama_belakang, username, email, no_hp, status_user) VALUES
@@ -34,3 +43,8 @@ INSERT INTO projects (nama, id_project_owner, deskripsi) VALUES
     ('John Satu', 1, 'Merupakan project untuk real count data'),
     ('Mamat Dua', 2, 'real count data untuk jabar II'),
     ('Tira Jabar', 3, 'project quick count data');
+
+
+INSERT INTO tipe_user (nama, tipe_wilayah, orderan, user_terdaftar, akses) VALUES
+    ('Admin Dapil Jatim 4', 'Dapil RI', 1, 20, 1),
+    ('Admin Kota', 'Kota/Kabupaten', 2, 5, 1);
