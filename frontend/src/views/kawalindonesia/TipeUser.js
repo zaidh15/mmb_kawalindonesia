@@ -199,10 +199,10 @@ const TipeUser = () => {
             {dataList.map((itemsTable) => (
             <CTableHeaderCell scope="col">
                 <CListGroupItem>{itemsTable.nama_project}</CListGroupItem>
-                <CListGroupItem>{itemsTable.nama_depan + ' ' + itemsTable.nama_belakang}</CListGroupItem>
+                <CListGroupItem>{itemsTable.nama_depan + ' ' + itemsTable.nama_belakang + ' ' + '( username: ' + itemsTable.username + ')' }</CListGroupItem>
                 <CListGroupItem>{itemsTable.deskripsi}</CListGroupItem>
-                <CListGroupItem><CButton color="info" variant="outline" size='sm'>Edit</CButton></CListGroupItem>
-                <CListGroupItem><CButton color="info" variant="outline" size='sm'>Lihat Form</CButton></CListGroupItem>
+                <CListGroupItem>{!itemsTable.cakupanWilayah && 'kosong '}<CButton color="info" variant="outline" size='sm'>Edit</CButton></CListGroupItem>
+                <CListGroupItem>{!itemsTable.form && 'kosong '}<CButton color="info" variant="outline" size='sm'>Lihat Form</CButton></CListGroupItem>
                 <CListGroupItem><CFormSwitch label="" id="formSwitchCheckChecked" defaultChecked/></CListGroupItem>
             </CTableHeaderCell>
 
