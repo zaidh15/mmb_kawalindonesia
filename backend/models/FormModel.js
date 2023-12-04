@@ -1,5 +1,24 @@
 const db = require('../config/database')
 
+const updateStatus = () => {
+  const currentDate = new Date().toISOString().split('T')[0];
+
+  db.query(
+      'UPDATE forms SET status = "tidak_aktif" WHERE tanggal_berlaku < ?',
+      [currentDate],
+      (err, result) => {
+          if (err) {
+              console.error('Error updating status:', err);
+              return;
+          }
+          console.log('Status updated successfully');
+      }
+  );
+};
+
+// Schedule the update task (every day at midnight)
+setInterval(updateStatus, 24 * 60 * 60 * 1000);
+
 async function ambilSemua() {
   const conn = await db.getConnection()
   try {
@@ -9,7 +28,8 @@ async function ambilSemua() {
         f.nama_form,
         f.kode_form,  
         f.deskripsi, 
-        f.masa_berlaku, 
+        f.tanggal_buat, 
+        f.tanggal_berlaku, 
         f.pembuat_form,
         f.status,
         f.form_json
@@ -75,5 +95,7 @@ async function hapus(id) {
     conn.release()
   }
 }
+
+
 
 module.exports = { ambilSemua, ambilBerasarkanId, tambah, ubah, hapus }

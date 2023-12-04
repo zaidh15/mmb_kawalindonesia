@@ -23,3 +23,4 @@ app.use("/api", apiRoutes)
 app.listen(port, () => {
   console.log(`Server up and running on http://localhost:${port} ...`)
 })
+
