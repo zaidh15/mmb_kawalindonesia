@@ -105,7 +105,7 @@ const ProjectForm = (props) => {
               {
                 data.map((item) => {
                   return (
-                    <option value={item.id} key={item.id}>{item.nama_depan + ' ' + item.nama_belakang}</option>
+                    <option value={item.id} key={item.id}>{item.nama_depan + ' ' + item.nama_belakang + ' (' + item.username + ')' }</option>
                   )
                 })
               }
