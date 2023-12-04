@@ -6,7 +6,7 @@ const Typography = React.lazy(() => import('./views/theme/typography/Typography'
 
 //Manajemen
 const KawalIndonesia = React.lazy(() => import('./views/kawalindonesia/Project'))
-const Form_Kawal= React.lazy(() => import('./views/kawalindonesia/Form_Kawal'))
+const FormKawal= React.lazy(() => import('./views/kawalindonesia/FormKawal'))
 const TipeUser= React.lazy(() => import('./views/kawalindonesia/TipeUser'))
 
 // Base
@@ -102,7 +102,7 @@ const routes = [
   { path: '/widgets', name: 'Widgets', element: Widgets },
   { path: '/manajemen', name: 'Manajemen', element: KawalIndonesia, exact: true },
   { path: '/kawalindonesia/project', name: 'Kawal Indonesia', element: KawalIndonesia },
-  { path: '/kawalindonesia/form', name: 'Form', element: Form_Kawal },
+  { path: '/kawalindonesia/form', name: 'Form', element: FormKawal },
   { path: '/kawalindonesia/tipeuser', name: 'Tipe User', element: TipeUser },
   { path: '/kawalindonesia/tipe-user/:id', name: 'Tipe User', element: TipeUser },
 ]
