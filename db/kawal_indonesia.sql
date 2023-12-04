@@ -30,21 +30,20 @@ CREATE TABLE IF NOT EXISTS tipe_user (
   akses INT
 );
 
-CREATE TABLE IF NOT EXISTS forms (
-    id SERIAL PRIMARY KEY,
-    nama_form VARCHAR(255) NOT NULL,
-    kode_form VARCHAR(255) NOT NULL,
-    deskripsi TEXT NOT NULL,
-    masa_berlaku DATE NOT NULL,
-    pembuat_form VARCHAR(255) NOT NULL,
-    status BOOLEAN,
-    form_json TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+CREATE TABLE `forms` (
+  `id` int(11) NOT NULL,
+  `nama_form` varchar(200) NOT NULL,
+  `kode_form` varchar(100) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `tanggal_buat` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `tanggal_berlaku` date NOT NULL,
+  `pembuat_form` varchar(200) NOT NULL,
+  `status` enum('aktif','non-aktif') NOT NULL DEFAULT 'aktif',
+  `form_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`form_json`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-Insert data dummy
+-- insert dummy
 INSERT INTO users (nama_depan, nama_belakang, username, email, no_hp, status_user) VALUES
     ('John', 'Sin', 'john_sin', 'johnsin@example.com', '1234567890', 1), -- Active user
     ('Mamat', 'Tar', 'mamattar', 'mamattar@example.com', '9876543210', 1), -- Active user
@@ -62,49 +61,6 @@ INSERT INTO tipe_user (nama, tipe_wilayah, orderan, user_terdaftar, akses) VALUE
     ('Admin Dapil Jatim 4', 'Dapil RI', 1, 20, 1),
     ('Admin Kota', 'Kota/Kabupaten', 2, 5, 1);
 
-INSERT INTO forms (nama_form, kode_form, deskripsi, masa_berlaku, pembuat_form, status, form_json)
-VALUES
-    ('Data User', 'DS', 'Ini data user', '2023-12-31', 'Saksi TPS', true, 
-    '{"title": "DATA SURVEI USER",
-    "logoPosition": "right",
-    "pages": [
-    {
-    "name": "page1",
-    "elements": [
-        {
-        "type": "text",
-        "name": "question1",
-        "title": "Nama",
-        "isRequired": true
-        },
-        {
-        "type": "text",
-        "name": "question2",
-        "title": "Usia",
-        "isRequired": true,
-        "inputType": "number"
-        },
-        {
-        "type": "radiogroup",
-        "name": "question3",
-        "title": "Pilihan",
-        "isRequired": true,
-        "choices": [
-        {
-        "value": "Item 1",
-        "text": "NO 1"
-        },
-        {
-        "value": "Item 2",
-        "text": "NO 2"
-        },
-        {
-        "value": "Item 3",
-        "text": "NO 3"
-        }
-        ]
-        }
-    ]
-    }
-    ]
-    }');
+
+INSERT INTO `forms` (`id`, `nama_form`, `kode_form`, `deskripsi`, `tanggal_buat`, `tanggal_berlaku`, `pembuat_form`, `status`, `form_json`) VALUES
+(1, 'Form Data Saksi', 'DS', 'Pendataan Saksi', '2023-12-03 13:31:23', '2023-12-06', 'Superadmin', 'aktif', '{\n \"title\": \"Form Data Saksi\",\n \"description\": \"Mendata saksi\",\n \"logoPosition\": \"right\",\n \"pages\": [\n  {\n   \"name\": \"page1\",\n   \"elements\": [\n    {\n     \"type\": \"text\",\n     \"name\": \"question1\",\n     \"title\": \"Nama\",\n     \"isRequired\": true\n    },\n    {\n     \"type\": \"text\",\n     \"name\": \"question2\",\n     \"title\": \"NIK\",\n     \"isRequired\": true\n    }\n   ]\n  }\n ]\n}')
